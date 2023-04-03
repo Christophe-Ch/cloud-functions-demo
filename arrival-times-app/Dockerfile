@@ -1,7 +1,12 @@
 FROM node:alpine as build
 WORKDIR /app
-COPY package*.json .
+COPY package*.json ./
 RUN npm install
 COPY ./ ./
-EXPOSE 4200
-CMD ["node_modules/@angular/cli/bin/ng", "serve", "--host", "0.0.0.0"]
+RUN npm run build:ssr
+
+FROM node:alpine
+WORKDIR /app
+COPY --from=build /app/dist/ ./dist/
+EXPOSE 4000
+ENTRYPOINT ["npm", "run", "serve:ssr"]
