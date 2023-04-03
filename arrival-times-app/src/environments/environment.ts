@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  endpoint: ''
+  endpoint: 'https://europe-west1-cloud-functions-demo-382620.cloudfunctions.net/fetch-arrival-times'
 };
 
 /*

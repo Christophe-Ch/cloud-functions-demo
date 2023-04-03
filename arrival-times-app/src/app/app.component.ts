@@ -9,7 +9,9 @@ interface Response {
 }
 
 interface ArrivalTime {
-  timestamp: number;
+  timestamp: {
+    _seconds: number;
+  };
 }
 
 const OFFSET = 1000 * 60 * 15; // 15 minutes
@@ -28,16 +30,17 @@ export class AppComponent implements AfterViewInit {
     this._http.get<Response>(
       environment.endpoint
     ).subscribe((result) => {
+      console.log(result)
       new Chart(
         this.chart.nativeElement,
         {
           type: 'line',
           data: {
-            labels: result.arrivalTimes.map(row => new Date(row.timestamp).toDateString()),
+            labels: result.arrivalTimes.map(row => new Date(row.timestamp._seconds * 1000).toDateString()),
             datasets: [
               {
                 label: 'Arrival time per day',
-                data: result.arrivalTimes.map(row => row.timestamp)
+                data: result.arrivalTimes.map(row => row.timestamp._seconds * 1000)
               }
             ]
           },
@@ -46,7 +49,8 @@ export class AppComponent implements AfterViewInit {
               x: {
                 type: 'time',
                 time: {
-                  unit: 'day'
+                  unit: 'day',
+                  tooltipFormat: 'MMM D'
                 }
               },
               y: {
@@ -58,8 +62,8 @@ export class AppComponent implements AfterViewInit {
                   },
                   tooltipFormat: 'HH:mm'
                 },
-                min: Math.min.apply(this, result.arrivalTimes.map(row => row.timestamp)) - OFFSET,
-                max: Math.max.apply(this, result.arrivalTimes.map(row => row.timestamp)) + OFFSET,
+                min: Math.min.apply(this, result.arrivalTimes.map(row => row.timestamp._seconds * 1000)) - OFFSET,
+                max: Math.max.apply(this, result.arrivalTimes.map(row => row.timestamp._seconds * 1000)) + OFFSET,
               }
             }
           }
