@@ -5,7 +5,7 @@ on:
       - main
     paths:
       - .github/workflows/fetch-cloud-function.yml
-      - fetch-arrival-time/**
+      - fetch-arrival-times/**
 jobs:
   Deploy:
     runs-on: ubuntu-latest
@@ -26,11 +26,11 @@ jobs:
         id: deploy-function
         uses: google-github-actions/deploy-cloud-functions@v1
         with:
-          name: fetch-arrival-time
+          name: fetch-arrival-times
           runtime: nodejs18
           entry_point: fetch
           memory_mb: 128
-          source_dir: cloud-function
+          source_dir: fetch-arrival-times
           min_instances: 0
           max_instances: 1
           region: europe-west1

@@ -30,7 +30,7 @@ jobs:
           runtime: nodejs18
           entry_point: push
           memory_mb: 128
-          source_dir: cloud-function
+          source_dir: push-arrival-time
           min_instances: 0
           max_instances: 1
           region: europe-west1
