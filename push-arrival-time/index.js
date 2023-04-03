@@ -26,9 +26,10 @@ functions.http('push', async (req, res) => {
     const today = new Date(now.toDateString());
 
     const document = collection.doc(today.getTime().toString());
+    console.log(today.getTime().toString(), document);
     document.set({
         timestamp: now
-    }, { merge: true });
+    });
 
     res.send({ success: true });
 });
