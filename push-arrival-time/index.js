@@ -3,7 +3,7 @@ const { Firestore } = require('@google-cloud/firestore');
 
 const firestore = new Firestore();
 
-functions.http('helloHttp', async (req, res) => {
+functions.http('push', async (req, res) => {
   const collection = firestore.collection('arrivalTimes');
 
   const now = new Date();
@@ -11,8 +11,8 @@ functions.http('helloHttp', async (req, res) => {
 
   const document = collection.doc(today.getTime().toString());
   document.set({
-    timestamp: now - today
+    timestamp: now
   }, { merge: true });
-  
+
   res.send({ success: true });
 });

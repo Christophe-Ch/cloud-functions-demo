@@ -3,7 +3,7 @@ const { Firestore } = require('@google-cloud/firestore');
 
 const firestore = new Firestore();
 
-functions.http('helloHttp', async (req, res) => {
+functions.http('fetch', async (req, res) => {
   const collection = firestore.collection('arrivalTimes');
 
   res.send({
