@@ -41,12 +41,12 @@ jobs:
           context: arrival-times-app/
           push: true
           tags: |
-            europe-west1-docker.pkg.dev/cloud-functions-demo/arrival-times-app/arrival-times-app:${{ steps.get-tag.outputs.short_ref }}
-            europe-west1-docker.pkg.dev/cloud-functions-demo/arrival-times-app/arrival-times-app:latest
+            europe-west1-docker.pkg.dev/cloud-functions-demo-382620/arrival-times-app/arrival-times-app:${{ steps.get-tag.outputs.short_ref }}
+            europe-west1-docker.pkg.dev/cloud-functions-demo-382620/arrival-times-app/arrival-times-app:latest
 
       - name: Deploy new revision
         uses: google-github-actions/deploy-cloudrun@v1
         with:
           service: arrival-times-app
-          image: europe-west1-docker.pkg.dev/cloud-functions-demo/arrival-times-app/arrival-times-app
+          image: europe-west1-docker.pkg.dev/cloud-functions-demo-382620/arrival-times-app/arrival-times-app
           region: europe-west1
