@@ -9,4 +9,4 @@ FROM node:alpine
 WORKDIR /app
 COPY --from=build /app/dist/ ./dist/
 EXPOSE 4000
-ENTRYPOINT ["npm", "run", "serve:ssr"]
+ENTRYPOINT ["node", "/app/dist/arrival-times-app/server/main.js"]
