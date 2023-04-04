@@ -1,5 +1,7 @@
 # Cloud Functions Demo
 
+![Push Cloud Function deployment badge](https://github.com/Christophe-Ch/cloud-functions-demo/actions/workflows/push-cloud-function.yml/badge.svg) ![Fetch Cloud Function deployment badge](https://github.com/Christophe-Ch/cloud-functions-demo/actions/workflows/fetch-cloud-function.yml/badge.svg) ![Arrival times app deployment badge](https://github.com/Christophe-Ch/cloud-functions-demo/actions/workflows/arrival-times-app.yml/badge.svg)
+
 This project has been developed as a support for the Cloud Functions presentation.
 
 ## Goal
