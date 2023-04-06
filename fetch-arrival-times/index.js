@@ -23,6 +23,6 @@ functions.http('fetch', async (req, res) => {
   const collection = firestore.collection('arrivalTimes');
 
   res.send({
-    arrivalTimes: (await collection.get()).docs.map(doc => doc.data())
+    arrivalTimes: (await collection.get()).docs.map(doc => doc.data().timestamp.toDate())
   });
 });
