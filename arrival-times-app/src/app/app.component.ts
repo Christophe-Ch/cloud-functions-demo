@@ -5,13 +5,12 @@ import 'chartjs-adapter-moment';
 import { environment } from 'src/environments/environment';
 
 interface Response {
-  arrivalTimes: ArrivalTime[]
+  arrivalTimes: string[]
 }
 
 interface ArrivalTime {
-  timestamp: {
-    _seconds: number;
-  };
+  day: Date;
+  hour: Date;
 }
 
 const OFFSET = 1000 * 60 * 15; // 15 minutes
@@ -30,17 +29,17 @@ export class AppComponent implements AfterViewInit {
     this._http.get<Response>(
       environment.endpoint
     ).subscribe((result) => {
-      console.log(result)
+      const data = this._prepareData(result);
       new Chart(
         this.chart.nativeElement,
         {
           type: 'line',
           data: {
-            labels: result.arrivalTimes.map(row => new Date(row.timestamp._seconds * 1000).toDateString()),
+            labels: data.map(arrivalTime => arrivalTime.day),
             datasets: [
               {
                 label: 'Arrival time per day',
-                data: result.arrivalTimes.map(row => row.timestamp._seconds * 1000)
+                data: data.map(arrivalTime => arrivalTime.hour)
               }
             ]
           },
@@ -56,19 +55,49 @@ export class AppComponent implements AfterViewInit {
               y: {
                 type: 'time',
                 time: {
-                  unit: 'hour',
+                  unit: 'minute',
                   displayFormats: {
                     hour: 'HH:mm',
                   },
-                  tooltipFormat: 'HH:mm'
+                  tooltipFormat: 'HH:mm',
                 },
-                min: Math.min.apply(this, result.arrivalTimes.map(row => row.timestamp._seconds * 1000)) - OFFSET,
-                max: Math.max.apply(this, result.arrivalTimes.map(row => row.timestamp._seconds * 1000)) + OFFSET,
+                min: Math.min(...data.map(arrivalTime => arrivalTime.hour.getTime())) - OFFSET,
+                max: Math.max(...data.map(arrivalTime => arrivalTime.hour.getTime())) + OFFSET,
               }
             }
           }
         }
       )
     });
+  }
+
+  private _prepareData(response: Response): ArrivalTime[] {
+    return response.arrivalTimes.map(rawDate => {
+      const date = new Date(rawDate);
+
+      return {
+        day: this._getDay(date),
+        hour: this._getTimeOfDay(date)
+      };
+    });
+  }
+
+  private _getDay(baseDate: Date): Date {
+    const date = new Date(baseDate);
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+  
+    return date;
+  }
+
+  private _getTimeOfDay(baseDate: Date): Date {
+    const date = new Date(baseDate);
+    date.setFullYear(0);
+    date.setMonth(0);
+    date.setDate(0);
+  
+    return date;
   }
 }
